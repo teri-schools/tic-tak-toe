@@ -19,20 +19,20 @@ class Player:
             char = input().strip()
             if char.lower() == "u":
                 raise UndoMove()
-            if not char.isdigit() or not 1 <= int(char) <= (board.size**2):
-                print(f"Please enter a valid number between 1 and {(board.size**2)}.")
+            if not char.isdigit() or not 1 <= int(char) <= (board.size ** 2):
+                print(f"Please enter a valid number between 1 and {(board.size ** 2)}.")
                 continue
             if board.get_cell(int(char)) is None:
-                return board.set_cell(int(char), self.badge)
+                return board.move(int(char), self.badge)
             print(f"There is no cell '{char}' on the field")
 
     def say_win_message(self):
         print(f"Player '{self.name}' has wins!")
 
     @classmethod
-    def from_console(cls, badge: str = None):
+    def from_console(cls, badge: str = None, text: str = "What is your name?\n"):
         with ConsoleSession():
-            name = input("What is your name?\n").strip()
+            name = input(text).strip()
             if not badge:
                 badge = input("Select your badge: X or O\n").strip().lower()
                 badge = Badge(badge)
@@ -96,7 +96,7 @@ class PCPlayer(Player):
     def move(self, board: Board):
         print(f"{self.name}'s turn:")
         num = self.get_best_position(board)
-        return board.set_cell(num, self.badge)
+        return board.move(num, self.badge)
 
     def say_win_message(self):
         print("Player 'PC' has won!\n"

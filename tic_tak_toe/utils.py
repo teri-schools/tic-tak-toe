@@ -1,6 +1,7 @@
 import os
 from typing import List
 
+
 def draw_table(table: List[List[str]]):
     collum_count = max(map(len, table))
     row_count = len(table)
@@ -11,8 +12,9 @@ def draw_table(table: List[List[str]]):
             lambda x: str(x).center(3),
             row
         )))
-    sep = "-"*((collum_count * 4) - 1)
+    sep = "-" * ((collum_count * 4) - 1)
     print(f"\n{sep}\n".join(rows))
+
 
 def clear_console():
     os.system('cls' if os.name == 'nt' else 'clear')

@@ -1,11 +1,11 @@
-import sys, os
+import os
+from pickle import dump, load
 
 from tic_tak_toe.types import Player, Game, PCPlayer
 from tic_tak_toe.utils import ConsoleSession, clear_console
 
-from pickle import dump, load
-
 SAVE_PATH = "tic_tak_toe.pkl"
+
 
 class Program:
     def __init__(self):
@@ -26,6 +26,8 @@ class Program:
     def menu(self):
         if self.last_game is None:
             self.last_game = self.select_game()
+            if self.last_game is None:
+                raise KeyboardInterrupt()
         self.last_game.play()
         print("Do you want to play again? (y/n)")
         while 1:
@@ -42,7 +44,9 @@ class Program:
     def select_game(self):
         with ConsoleSession():
             print("Select a game mode.\n"
-                  "Write the number '1' for playing with the computer or '2' if playing with a friend: ")
+                  "1 - playing with the computer\n"
+                  "2 - playing with a friend\n"
+                  "n - exit program.")
             while True:
                 game_mode = input().strip()
                 if game_mode == "1":
@@ -53,8 +57,10 @@ class Program:
                 elif game_mode == "2":
                     return Game(
                         self.player1,
-                        Player.from_console(~self.player1.badge)
+                        Player.from_console(~self.player1.badge, text="What is your friend name?")
                     )
+                elif game_mode.lower() == "n":
+                    raise KeyboardInterrupt()
                 else:
                     print("Wrong input")
 

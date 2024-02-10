@@ -1,4 +1,5 @@
 from typing import List, Optional, Tuple
+
 from tic_tak_toe.utils import draw_table
 
 
@@ -29,6 +30,7 @@ class Board:
 
     def __init__(self, size: int = 3):
         self.size = size
+        self._history = []
         self.board = [[None for i in range(size)] for j in range(size)]
 
     def get_position(self, num: int) -> Tuple[int, int]:
@@ -57,7 +59,13 @@ class Board:
         x, y = self.get_position(num)
         return self.board[x][y]
 
-    def set_cell(self, num: int, badge: Badge):
+    def undo_move(self):
+        self.board = self._history.pop(-1)
+
+    def move(self, num: int, badge: Badge):
+        self._history.append(
+            [[cell for cell in row] for row in self.board]
+        )
         x, y = self.get_position(num)
         self.board[x][y] = badge
 

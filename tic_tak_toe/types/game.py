@@ -1,6 +1,5 @@
-from tic_tak_toe.types import Board, Player, UndoMove
+from tic_tak_toe.types import Board, Player, UndoMove, PCPlayer
 from tic_tak_toe.utils import clear_console
-
 
 
 class Game:
@@ -55,7 +54,11 @@ class Game:
                 self.undo_move()
 
     def undo_move(self):
-        ...
+        self.board.undo_move()
+        self.next_player()
+        if isinstance(self.current_player, PCPlayer):
+            self.next_player()
+            self.board.undo_move()
 
     def play(self):
         self._close = False
