@@ -1,0 +1,3 @@
+
+class UndoMove(Exception):
+    pass
